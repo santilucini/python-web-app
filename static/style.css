@@ -1,0 +1,28 @@
+html{
+    font-family: 'Source Code Pro', monospace;
+}
+
+h1 {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+.container-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 40px;
+}
+
+.container-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container-buttons > button{
+    margin-left: 10px;
+    height: 45px;
+    width: 80px;
+}
