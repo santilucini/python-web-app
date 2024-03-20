@@ -1,35 +1,20 @@
 from flask import Flask, render_template, jsonify
+from database import load_transactions_from_db
 
 app = Flask(__name__)
 
-TRANSACTIONS = [
-    {
-        'id': 1,
-        'date': '01/01/1999',
-        'category': 'Supermarket',
-        'desc': 'Monster',
-        'income': '0',
-        'outcome': '1500'
-    },
-    {
-        'id': 2,
-        'date': '01/02/1999',
-        'category': 'Sueldo',
-        'desc': 'Work',
-        'income': '10000',
-        'outcome': '0'
-    }
-]
-
 @app.route("/")
 def hello_world():
+    transactions = load_transactions_from_db()
+
     #this executes the page
-    return render_template('home.html',transactions=TRANSACTIONS)
+    return render_template('home.html',transactions=transactions)
 
 @app.route("/api/transactions")
 def list_transactions():
-    return jsonify(TRANSACTIONS)
+    transactions = load_transactions_from_db()
+    return jsonify(transactions)
 
 #This is to excecute the app with Flask
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
