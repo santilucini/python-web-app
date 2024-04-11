@@ -16,4 +16,15 @@ def load_transactions_from_db():
 
         return transactions
     
-print(load_transactions_from_db())
+def load_transaction_from_db(id):
+    with engine.connect() as conn:
+        result = conn.execute(text("select * from transactions where id= :val"),
+                              {"val": id})
+      
+        rows = result.all()        
+        if len(rows) == 0:
+            return None
+        else:  
+            for row in rows:
+                transaction = dict(row._mapping)
+            return transaction   
