@@ -1,14 +1,15 @@
-from flask import Flask, render_template, jsonify
-from database import load_transactions_from_db, load_transaction_from_db
+from flask import Flask, render_template, jsonify, request, redirect, url_for
+from database import load_transactions_from_db, load_transaction_from_db, add_new_transaction
 
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
+def index():
     transactions = load_transactions_from_db()
 
     #this executes the page
     return render_template('home.html',transactions=transactions)
+
 
 @app.route("/api/transactions")
 def list_transactions():
@@ -19,6 +20,28 @@ def list_transactions():
 def show_transact(id):
     transact = load_transaction_from_db(id)
     return jsonify(transact)
+
+@app.route("/new")
+def new_transaction():    
+    #this executes the page
+    return render_template('new_transaction.html')
+
+@app.route("/submit", methods=['POST'])
+def submit():
+    # Handle POST request
+    data = request.form
+
+    request.form.clear
+
+    response = add_new_transaction(data)
+    print('Paso POST')
+    print(data)
+
+    transactions = load_transactions_from_db()
+
+    #this executes the page
+    return redirect(url_for('index'))
+
 
 #This is to excecute the app with Flask
 if __name__ == "__main__":

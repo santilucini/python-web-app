@@ -4,11 +4,11 @@ import os
 with open('SECRET.txt','r') as file:
     connection_string = file.read()
 
-engine = create_engine(str(connection_string))
+engine = create_engine(str(connection_string)).execution_options(isolation_level="AUTOCOMMIT")
 
 def load_transactions_from_db():
     with engine.connect() as conn:
-        result = conn.execute(text("select * from transactions;"))
+        result = conn.execute(text("select * from transactions order by id desc;"))
       
         transactions = []
         for row in result.all():
@@ -28,3 +28,14 @@ def load_transaction_from_db(id):
             for row in rows:
                 transaction = dict(row._mapping)
             return transaction   
+        
+
+def add_new_transaction(data):
+    with engine.connect() as conn:
+        query = text("INSERT INTO transactions (date,category,[desc],income,outcome) VALUES (:date, :category, :description, :income, :outcome)")        
+        
+        response = conn.execute(query,{"date":data['Date'],"category":data['Category'],"description":data['Description'],"income":data['Income'],"outcome":data['Outcome']})
+        #response = conn.execute(query,date=data['Date'],category=data['Category'],description=data['Description'],income=data['Income'],outcome=data['Outcome'])
+       
+
+        return response
