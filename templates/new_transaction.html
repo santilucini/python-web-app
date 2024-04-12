@@ -18,8 +18,9 @@
 </head>
 <body>
     {% include 'nav.html' %}
-    <div class="container">
-            <form action="/submit" method="post">  
+    <div class="container">        
+            <form action="/submit" method="post"> 
+                <br> 
                 <div class="mb-2">
                     <label >Date:</label>
                     <input type="text" name="Date" placeholder="01/01/1999">  
@@ -32,15 +33,37 @@
                     <label >Description:</label>
                     <input type="text" name="Description" placeholder="Coquita"> 
                 </div> 
-                <div class="mb-2">
+                
+                <button id="btn_expense" type="button" class="btn btn-primary mb-2">Expense</button>
+                <button id="btn_income" type="button" class="btn btn-primary mb-2">Income</button>
+
+                <div id="input_income" class="mb-2">
                     <label >Income:</label>
                     <input type="text" name="Income" placeholder="150"> 
                 </div> 
-                <div class="mb-2">
-                    <label >Outcome:</label>
+                <div id="input_expense" class="mb-2">
+                    <label >Expense:</label>
                     <input type="text" name="Outcome" placeholder="150"> 
                 </div> 
-                <input type="submit">
+
+                <script>
+                    document.getElementById('btn_expense').addEventListener('click', function() {
+                        document.getElementById('input_expense').style.display = 'block';
+                        document.getElementById('input_income').style.display = 'none';
+                        document.getElementById('btn_income').style.color = 'grey';
+                        document.getElementById('btn_expense').style.color = 'white';
+                    });
+            
+                    document.getElementById('btn_income').addEventListener('click', function() {
+                        document.getElementById('input_income').style.display = 'block';
+                        document.getElementById('input_expense').style.display = 'none';
+                        document.getElementById('btn_expense').style.color = 'grey';
+                        document.getElementById('btn_income').style.color = 'white';
+                    });
+                </script>
+
+                <input type="submit" class="btn btn-secondary">
+                <a href="/" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
     </div>

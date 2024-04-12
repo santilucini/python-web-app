@@ -6,9 +6,21 @@ with open('SECRET.txt','r') as file:
 
 engine = create_engine(str(connection_string)).execution_options(isolation_level="AUTOCOMMIT")
 
+def get_initial_balance():
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT * FROM transactions WHERE category = 'Initial Balance';"))
+      
+        rows = result.all()        
+        if len(rows) == 0:
+            return None
+        else:  
+            for row in rows:
+                transaction = dict(row._mapping)
+            return transaction['income']  
+
 def load_transactions_from_db():
     with engine.connect() as conn:
-        result = conn.execute(text("select * from transactions order by id desc;"))
+        result = conn.execute(text("select * from transactions where category <> 'Initial Balance' order by id asc;"))
       
         transactions = []
         for row in result.all():
@@ -37,5 +49,4 @@ def add_new_transaction(data):
         response = conn.execute(query,{"date":data['Date'],"category":data['Category'],"description":data['Description'],"income":data['Income'],"outcome":data['Outcome']})
         #response = conn.execute(query,date=data['Date'],category=data['Category'],description=data['Description'],income=data['Income'],outcome=data['Outcome'])
        
-
         return response

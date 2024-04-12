@@ -1,6 +1,7 @@
-/*.container-header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}*/
+#btn_income {
+    color: grey;
+}
+
+#input_income {
+    display: none;
+}
