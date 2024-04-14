@@ -1,10 +1,15 @@
 <tr>
-    <td> <a href="/transaction/{{transaction['id']}}"><img src="..\static\icons8-edit-24.png"></img></a> </td>
+    <td> <a href="/edit/{{transaction['id']}}"><img src="..\static\icons8-edit-24.png"></img></a> </td>
     <th scope="row">{{transaction['id']}}</th>
     <td>{{transaction['date']}}</td>
     <td>{{transaction['category']}}</td>
     <td>{{transaction['description']}}</td>
-    <td>+${{transaction['income']}}</td>
-    <td>-${{transaction['expense']}}</td>                    
+    {% if transaction['type'] == 1 %}
+        <td>-</td>
+        <td>-${{transaction['amount']}}</td> 
+    {% elif transaction['type'] == 2 %}           
+        <td>+${{transaction['amount']}}</td>   
+        <td>-</td>     
+    {% endif %}         
     <td><b>{{transaction['balance']}}</b></td>
 </tr>

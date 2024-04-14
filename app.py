@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
-from database import load_transactions_from_db, load_transaction_from_db, add_new_transaction, get_initial_balance, get_categories
+from database import load_transactions_from_db, load_transaction_from_db, add_new_transaction, get_initial_balance, get_categories,update_transaction
 from datetime import datetime
 
 app = Flask(__name__)
@@ -14,16 +14,18 @@ def index():
         balance = initial_balance
 
         for transaction in transactions:
-            balance += transaction['income']
-            balance -= transaction['expense']
+            if transaction['type'] == 1:
+                balance -= transaction['amount']
+            elif transaction['type'] == 2:
+                balance += transaction['amount']
+
             transaction['balance'] = balance
 
         transactions.reverse()
-        print(type(transactions))
         #this executes the page
         return render_template('home.html',transactions=transactions,balance=balance, initial_balance=initial_balance)
     except Exception as e:
-        return "Data base not available or has a problem"
+        return e
 
 @app.route("/api/transactions")
 def list_transactions():
@@ -42,17 +44,37 @@ def new_transaction():
 
     today = datetime.now().strftime("%Y-%m-%d")
 
-    print(today)
-
     #this executes the page
     return render_template('new_transaction.html',categories=categories,today=today)
 
-@app.route("/submit", methods=['POST'])
-def submit():
+@app.route("/edit/<id>")
+def edit_transaction(id): 
+
+    transaction = load_transaction_from_db(id)
+
+    categories = get_categories()
+
+    #this executes the page
+    return render_template('edit_transaction.html',categories=categories,transaction=transaction)
+    #return jsonify(transaction)
+
+@app.route("/submit_new", methods=['POST'])
+def submit_new():
     # Handle POST request
     data = request.form
 
     add_new_transaction(data)    
+
+    #this executes the page
+    return redirect(url_for('index'))
+    #return jsonify(data)
+
+@app.route("/submit_edit", methods=['POST'])
+def submit_edit():
+    # Handle POST request
+    data = request.form
+
+    update_transaction(data)    
 
     #this executes the page
     return redirect(url_for('index'))
