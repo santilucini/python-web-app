@@ -21,21 +21,29 @@
     <div class="container">        
             <form action="/submit" method="post"> 
                 <br> 
+                <button id="btn_expense" type="button" class="btn btn-primary mb-2">Expense</button>
+                <button id="btn_income" type="button" class="btn btn-primary mb-2">Income</button>
+
                 <div class="mb-2">
                     <label >Date:</label>
-                    <input type="text" name="Date" placeholder="01/01/1999">  
-                </div>       
+                    <input type="date" name="Date" value="{{today}}">  
+                </div>
+
                 <div class="mb-2">
                     <label >Category:</label>
-                    <input type="text" name="Category" placeholder="Supermarket"> 
-                </div>         
+                    <select name="Category" id="">
+                        {% for category in categories %}
+                            <option value="{{category['id_category']}}">{{category['Category']}}</option>
+                        {% endfor %}
+                    </select>
+                </div> 
+
                 <div class="mb-2">
                     <label >Description:</label>
                     <input type="text" name="Description" placeholder="Coquita"> 
                 </div> 
                 
-                <button id="btn_expense" type="button" class="btn btn-primary mb-2">Expense</button>
-                <button id="btn_income" type="button" class="btn btn-primary mb-2">Income</button>
+                
 
                 <div id="input_income" class="mb-2">
                     <label >Income:</label>
@@ -43,7 +51,7 @@
                 </div> 
                 <div id="input_expense" class="mb-2">
                     <label >Expense:</label>
-                    <input type="text" name="Outcome" placeholder="150"> 
+                    <input type="text" name="Expense" placeholder="150"> 
                 </div> 
 
                 <script>
