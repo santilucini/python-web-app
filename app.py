@@ -5,6 +5,10 @@ from datetime import datetime
 app = Flask(__name__)
 
 @app.route("/")
+def home():
+    return redirect(url_for('index'))
+
+@app.route("/expenses")
 def index():
     try:
         transactions = load_transactions_from_db()
@@ -24,6 +28,20 @@ def index():
         transactions.reverse()
         #this executes the page
         return render_template('home.html',transactions=transactions,balance=balance, initial_balance=initial_balance)
+    except Exception as e:
+        return e
+
+@app.route("/savings")
+def savings():
+    try:
+        return render_template('savings.html')
+    except Exception as e:
+        return e
+
+@app.route("/debts")
+def debts():
+    try:
+        return render_template('savings.html')
     except Exception as e:
         return e
 
