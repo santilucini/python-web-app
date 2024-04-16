@@ -27,21 +27,21 @@ def index():
 
         transactions.reverse()
         #this executes the page
-        return render_template('home.html',transactions=transactions,balance=balance, initial_balance=initial_balance)
+        return render_template('base.html',page='expenses.html',transactions=transactions,balance=balance, initial_balance=initial_balance)
     except Exception as e:
         return e
 
 @app.route("/savings")
 def savings():
     try:
-        return render_template('savings.html')
+        return render_template('base.html',page='savings.html')
     except Exception as e:
         return e
 
 @app.route("/debts")
 def debts():
     try:
-        return render_template('savings.html')
+        return render_template('base.html',page='debts.html')
     except Exception as e:
         return e
 
