@@ -4,11 +4,11 @@
     <td>{{transaction['date']}}</td>
     <td>{{transaction['category']}}</td>
     <td>{{transaction['description']}}</td>
-    {% if transaction['type'] == 1 %}
+    {% if transaction['type'] == 1 or transaction['type'] == 3 %}
         <td>-</td>
-        <td>-${{transaction['amount']}}</td> 
+        <td>-${{transaction['amount_arg']}}</td> 
     {% elif transaction['type'] == 2 %}           
-        <td>+${{transaction['amount']}}</td>   
+        <td>+${{transaction['amount_arg']}}</td>   
         <td>-</td>     
     {% endif %}         
     <td><b>{{transaction['balance']}}</b></td>
